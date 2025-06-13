@@ -23,15 +23,23 @@ public class PlayerController_end5 : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other) // なにか他のものに触れたとき
     {
-        if (other.gameObject.CompareTag("ground")) // 接触したオブジェクトが"ground"タグを持つ場合 (part5で追加)
+        if (other.gameObject.CompareTag("Ground")) // 接触したオブジェクトが"Ground"タグを持つ場合 (part5で追加)
         {
             jumpCount = 0; // ジャンプ回数を0に設定
         }
     }
 
+    void OnTriggerExit2D(Collider2D other) // なにかから離れたとき
+    {
+        if (other.gameObject.CompareTag("Ground")) // 接触していたオブジェクトが"Ground"タグを持つ場合 (part5で追加)
+        {
+            jumpCount = 1; // ジャンプ回数を1に設定
+        }
+    }
+    
     void OnCollisionStay2D(Collision2D other) // なにか他のものに触れているとき (part5で追加)
     {
-        if (other.gameObject.CompareTag("damage") && !isInvincible) // 接触したオブジェクトが"spike"タグを持ち、無敵でない場合
+        if (other.gameObject.CompareTag("Damage") && !isInvincible) // 接触したオブジェクトが"Damage"タグを持ち、無敵でない場合
         {
             hitPoint--; // HPを1減少
             if (hitPoint <= 0) // HPが0以下になった場合
@@ -45,6 +53,7 @@ public class PlayerController_end5 : MonoBehaviour
             StartCoroutine(InvincibleCoroutine()); // 無敵時間を管理するコルーチンを開始
         }
     }
+    
 
     IEnumerator InvincibleCoroutine() // 無敵時間を管理するコルーチン (part5で追加)
     {
@@ -53,13 +62,6 @@ public class PlayerController_end5 : MonoBehaviour
         playerSpriteRenderer.color = new Color(1, 1, 1, 1); // スプライトの色を元に戻す
     }
 
-    void OnTriggerExit2D(Collider2D other) // 地面から離れたとき
-    {
-        if (other.gameObject.CompareTag("ground")) // 接触していたオブジェクトが"ground"タグを持つ場合 (part5で追加)
-        {
-            jumpCount = 1; // ジャンプ回数を1に設定
-        }
-    }
 
     // Start関数はUnityにおいて事前に定義された関数で、ゲームオブジェクトが生成されたときに一度だけ呼び出されます。
     // ゲームの1フレーム目に呼び出されるので、初期化処理などに使用されます。
